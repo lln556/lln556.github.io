@@ -8,7 +8,7 @@
 <h2 id="问题一"><a href="#问题一" class="headerlink" title="问题一"></a>问题一</h2><p>生成一个 100 以内的随机数,提示用户猜数字,根据用户的输入,提示用户猜对了, 猜小了或猜大了,直至用户猜对脚本结束。(提示:RANDOM 为系统自带的系统变量, 值为 0‐32767 的随机数，使用取余算法将随机数变为 1‐100 的随机数) </p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">## filename: p1.sh</span><br><span class="line"></span><br><span class="line">num&#x3D;$[$RANDOM%100]</span><br><span class="line">while :</span><br><span class="line">do</span><br><span class="line">    read -p &quot;请输入一个1-100之内的数:&quot; n</span><br><span class="line">    if (($n &#x3D;&#x3D; $num)) </span><br><span class="line">        then echo &quot;恭喜您猜对了!&quot; </span><br><span class="line">        break</span><br><span class="line">    elif (($n&gt;$num))</span><br><span class="line">        then echo &quot;提示：您猜大了&quot;</span><br><span class="line">    else echo &quot;提示：您猜小了&quot;</span><br><span class="line">    fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
 <p><strong>效果图</strong></p>
-<img src="/2020/04/20/shell%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B/1.png" class="" title="这是一个新的博客的图片的说明">
+<img src="/2020/04/20/shell%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B/1.png" class="" title="效果图">
 
 <hr>
 ]]></content>
