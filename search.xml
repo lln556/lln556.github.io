@@ -36,8 +36,73 @@
       </tags>
   </entry>
   <entry>
-    <title>指针初览</title>
-    <url>/2020/04/22/%E6%8C%87%E9%92%88%E5%88%9D%E8%A7%88/</url>
+    <title>函数指针</title>
+    <url>/2020/04/22/%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88/</url>
+    <content><![CDATA[<h1 id="什么是函数指针"><a href="#什么是函数指针" class="headerlink" title="什么是函数指针"></a>什么是函数指针</h1><ul>
+<li><p>函数指针（Function Pointer）就是指向函数的指针变量</p>
+<ul>
+<li><label style="color:blue">数据类型 （*指针变量名）（形参列表）；</label></li>
+</ul>
+</li>
+<li><p>例如，若有函数原型为：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">int Fun(int a, int b);</span><br></pre></td></tr></table></figure></li>
+<li><p>则可定义函数指针：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">int (*f)(int, int);</span><br></pre></td></tr></table></figure></li>
+<li><p>令<label style="color:red">f = Fun;</label> 就是让F指向函数Fun()</p>
+<ul>
+<li>编译器将不带()的函数名解释为该函数的入口地址</li>
+<li>函数指针变量存储的是函数在内存中的入口地址</li>
+</ul>
+<h1 id="函数指针有什么用？"><a href="#函数指针有什么用？" class="headerlink" title="函数指针有什么用？"></a>函数指针有什么用？</h1><p>将函数指针作为一个函数的形参的时候，只要我们将不同的函数名作为实参传给这个形参，那么在这个函数内就可以调用不同的函数</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">void Fun(int x, int y, int (*f)(int ,int));</span><br><span class="line">int Max(int x, int y);</span><br><span class="line">int Min(int x, int y);</span><br><span class="line">int Add(int x, int y);</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    int a, b;</span><br><span class="line">    scanf(&quot;%d,%d&quot;, &amp;a, &amp;b);</span><br><span class="line">    Fun(a, b, Max);</span><br><span class="line">    Fun(a, b, Min);</span><br><span class="line">    Fun(a, b, Add);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line">void Fun(int x, int y, int (*f)(int, int))</span><br><span class="line">&#123;</span><br><span class="line">    int result;</span><br><span class="line">    result &#x3D; (*f)(x, y);</span><br><span class="line">    printf(&quot;%d\n&quot;, result);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int Max(int x, int y)&#123;</span><br><span class="line">    printf(&quot;max&#x3D;&quot;);</span><br><span class="line">    return x &gt; y ? x : y;</span><br><span class="line">&#125;</span><br><span class="line">int Mix(int x, int y)&#123;</span><br><span class="line">    printf(&quot;mix&#x3D;&quot;);</span><br><span class="line">    return x &lt; y ? x : y;</span><br><span class="line">&#125;</span><br><span class="line">int Add(int x, int y)&#123;</span><br><span class="line">    printf(&quot;sum&#x3D;&quot;);</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>#函数指针的主要应用</p>
+<h2 id="函数指针的主要应用"><a href="#函数指针的主要应用" class="headerlink" title="函数指针的主要应用"></a>函数指针的主要应用</h2><ul>
+<li>编写通用性更强的函数<h2 id="典型实例1"><a href="#典型实例1" class="headerlink" title="典型实例1"></a>典型实例1</h2></li>
+<li>通用的计算任意函数定积分的函数<br>题目：写一个用矩形法求定积分的通用函数，分别求下列三个函数的定积分<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">#include&lt;math.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	float fun(float (*p)(float),float,float,int);</span><br><span class="line">	float fsin(float);</span><br><span class="line">	float fcos(float);</span><br><span class="line">	float fexp(float);</span><br><span class="line">	float a,b,(*p)(float);</span><br><span class="line">	int n&#x3D;100;</span><br><span class="line">	printf(&quot;input sin:\n&quot;);</span><br><span class="line">	scanf(&quot;%f%f&quot;,&amp;a,&amp;b);</span><br><span class="line">	p&#x3D;fsin;				&#x2F;&#x2F;指向函数</span><br><span class="line">	printf(&quot;%f\n&quot;,fun(p,a,b,n));</span><br><span class="line">	printf(&quot;input cos:\n&quot;);</span><br><span class="line">	scanf(&quot;%f%f&quot;,&amp;a,&amp;b);</span><br><span class="line">	p&#x3D;fcos;</span><br><span class="line">	printf(&quot;%f\n&quot;,fun(p,a,b,n));</span><br><span class="line">	printf(&quot;input exp:\n&quot;);</span><br><span class="line">	scanf(&quot;%f%f&quot;,&amp;a,&amp;b);</span><br><span class="line">	p&#x3D;fexp;</span><br><span class="line">	printf(&quot;%f\n&quot;,fun(p,a,b,n));</span><br><span class="line">	return 0; </span><br><span class="line">&#125;</span><br><span class="line">float fun(float (*p1)(float),float a,float b,int n)</span><br><span class="line">&#123;</span><br><span class="line">	float h,s&#x3D;0;</span><br><span class="line">	int i;</span><br><span class="line">	h&#x3D;(b-a)&#x2F;n;</span><br><span class="line">	for(i&#x3D;0;i&lt;n;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		s&#x3D;s+p1(b+i*h)*h;</span><br><span class="line">	&#125;</span><br><span class="line">	return s;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line">float fsin(float x)</span><br><span class="line">&#123;</span><br><span class="line">	return sin(x);</span><br><span class="line">&#125;</span><br><span class="line">float fcos(float x)</span><br><span class="line">&#123;</span><br><span class="line">	return cos(x);</span><br><span class="line">&#125;</span><br><span class="line">float fexp(float x)</span><br><span class="line">&#123;</span><br><span class="line">	return exp(x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="典型实例2"><a href="#典型实例2" class="headerlink" title="典型实例2"></a>典型实例2</h2><ul>
+<li>通用的排序函数（既能升序，又能降序）<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">void SelectionSort(int a[], int n, int (*copmare)(int, int));</span><br><span class="line">&#123;</span><br><span class="line">    int i, j, k;</span><br><span class="line">    for (i&#x3D;0; i&lt;n-1; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        k &#x3D; i;</span><br><span class="line">        for (j&#x3D;i+1; j&lt;n; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            if (*compare)(a[j], a[k]) k &#x3D; j;</span><br><span class="line">        &#125;</span><br><span class="line">        if (k !&#x3D; i)</span><br><span class="line">        &#123;</span><br><span class="line">            Swap(&amp;a[k], &amp;a[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int Ascending(int a, int b)</span><br><span class="line">&#123;</span><br><span class="line">    return a &lt; b;  &#x2F;&#x2F;为真，则升序</span><br><span class="line">&#125;</span><br><span class="line">int Descending(int a, int b)</span><br><span class="line">&#123;</span><br><span class="line">    return a &gt; b;  &#x2F;&#x2F;为真，则降序</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><h2 id="正确理解指针的概念"><a href="#正确理解指针的概念" class="headerlink" title="正确理解指针的概念"></a>正确理解指针的概念</h2><ul>
+<li>指针是一种特殊的数据类型</li>
+<li>指针类型的变量，称为指针变量</li>
+<li>指针不是地址，指针变量的值是一个地址</li>
+<li>想让指针变量指向哪个存储单元，就让其保存哪个单元的地址</li>
+</ul>
+<h2 id="使用指针变量的基本原则"><a href="#使用指针变量的基本原则" class="headerlink" title="使用指针变量的基本原则"></a>使用指针变量的基本原则</h2><ul>
+<li>明确指针指向了哪里————初始化的目的</li>
+<li>明确指针指向单元的内容是什么————基类型</li>
+<li>只能指向同一基类型的数据————一个（x型）的指针指向一个（x型）的变量</li>
+</ul>
+<h2 id="指针的重要应用"><a href="#指针的重要应用" class="headerlink" title="指针的重要应用"></a>指针的重要应用</h2><ul>
+<li>作函数参数，向函数传递变量或函数的地址</li>
+<li>动态分配内存，实现动态数组和动态数据结构</li>
+</ul>
+<h2 id="指向变量的指针作函数参数"><a href="#指向变量的指针作函数参数" class="headerlink" title="指向变量的指针作函数参数"></a>指向变量的指针作函数参数</h2><ul>
+<li>被调函数根据传入的地址读写它不能直接访问的变量值</li>
+</ul>
+<h2 id="指向函数的指针，作函数参数"><a href="#指向函数的指针，作函数参数" class="headerlink" title="指向函数的指针，作函数参数"></a>指向函数的指针，作函数参数</h2><ul>
+<li>被调函数根据传入的不同地址调用不同的函数</li>
+</ul>
+]]></content>
+      <categories>
+        <category>c语言</category>
+      </categories>
+      <tags>
+        <tag>指针</tag>
+        <tag>定积分计算</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>变量指针</title>
+    <url>/2020/04/22/%E5%8F%98%E9%87%8F%E6%8C%87%E9%92%88/</url>
     <content><![CDATA[<h1 id="变量和内存"><a href="#变量和内存" class="headerlink" title="变量和内存"></a>变量和内存</h1><ol>
 <li>内存用于存储数据，最小的单元是字节，每个单元都有一个地址编号，从0X0000000~0XFFFFFFFF</li>
 <li>变量有大小，指的是在内存占了几个字节。</li>
