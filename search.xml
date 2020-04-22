@@ -35,4 +35,71 @@
         <tag>shell脚本</tag>
       </tags>
   </entry>
+  <entry>
+    <title>指针初览</title>
+    <url>/2020/04/22/%E6%8C%87%E9%92%88%E5%88%9D%E8%A7%88/</url>
+    <content><![CDATA[<h1 id="变量和内存"><a href="#变量和内存" class="headerlink" title="变量和内存"></a>变量和内存</h1><ol>
+<li>内存用于存储数据，最小的单元是字节，每个单元都有一个地址编号，从0X0000000~0XFFFFFFFF</li>
+<li>变量有大小，指的是在内存占了几个字节。</li>
+<li>变量有地址，是变量在内存的位置，用&amp;号可以取得地址。</li>
+<li>变量赋值，就是向内存写入数据。读变量的值，就是从内存读取数据。</li>
+<li>每个变量都有自己的内存地址，绝不会有两个变量的地址相同。</li>
+<li>程序每次运行时，变量的地址是不一样的，无法预测与不需要预测</li>
+</ol>
+<h1 id="如何表示地址"><a href="#如何表示地址" class="headerlink" title="如何表示地址"></a>如何表示地址</h1><p>地址是整数，是否可以用 int ? （理论上可以。。。）<br>但是为了强调它是个内存地址，提出一些新的类型。。。</p>
+<p>char*  :  表示一个char型变量的地址<br>short* :  表示一个short型变量的地址<br>int*   :  表示一个int型变量的地址<br>float* :  表示一个float型变量的地址<br>double<em>:  表示一个double型变量的地址<br>unsigned char</em>: 表示一个unsigned char型变量的地址<br>…<br>XXX*   : 表示XXX型变量的地址</p>
+<p>以下以int型变量为例：<br>int a = 10;<br>int <em>pa = &a;<br>定义一个变量pa，类型为int</em>，初始值为&amp;a。</p>
+<p>有两种叫法：<br>pa指向了一个int型变量<br>pa所在的内存是一个int型整数<br>我们称int*为指针类型，pa为指针类型的变量(简称指针)</p>
+<h1 id="关于指针"><a href="#关于指针" class="headerlink" title="关于指针"></a>关于指针</h1><ol>
+<li>指针（Pointer) 类型</li>
+<li>指针变量————具有指针类型的变量<ul>
+<li>int *pa</li>
+<li>保存32位地址值————sizeof(pa)是4个字节</li>
+</ul>
+</li>
+<li>变量的地址是一个常量，不能改变</li>
+<li>变量的指针是一个变量，可以被改变，改变指针变量的值，就相当于改变指针变量的指向</li>
+<li>指针变量在使用前必须初始化（未初始化的指针变量是一个随机的值，对它进行写操作可能会对系统造成潜在的威胁）。若你不知道把它指向哪里的话，那就指向NULL（在stdio.h中定义为0）</li>
+</ol>
+<h2 id="NULL是什么"><a href="#NULL是什么" class="headerlink" title="NULL是什么"></a>NULL是什么</h2><ul>
+<li>空指针————值为NULL的指针，即无效指针</li>
+<li>问题：p = 0 和 p = NULL 有什么区别<ul>
+<li>p = NULL 可以明确地说p是一个指针变量，而不是一个数值型变量</li>
+</ul>
+</li>
+<li>问题： 空指针就是指向地址为0的存储单元的指针吗<ul>
+<li>答案：不一定<br>并非所有编译器都使用0地址<br>某些编译器为空指针使用不存在的内存地址</li>
+</ul>
+</li>
+</ul>
+<h2 id="指针变量的解引用"><a href="#指针变量的解引用" class="headerlink" title="指针变量的解引用"></a>指针变量的解引用</h2><ol>
+<li>此<label style="color:red">*</label>非彼<label style="color:blue">*</label></li>
+</ol>
+<ul>
+<li>在 int <label style="color:blue">*</label>pa 中，<label style="color:blue">*</label>作为指针类型的说明符，用于定义指针变量</li>
+<li>在 <label style="color:red">*</label>pa = 1 中，<label style="color:red">*</label>作为寻址运算符，用于访问指针变量pa所指向的那个变量的值</li>
+</ul>
+<ol start="2">
+<li>只要pa指向a,*pa就是a的别名</li>
+</ol>
+<h2 id="为什么要用指针变量做函数参数"><a href="#为什么要用指针变量做函数参数" class="headerlink" title="为什么要用指针变量做函数参数"></a>为什么要用指针变量做函数参数</h2><ul>
+<li><label style="color:red">基本类型</label>的变量作函数参数： <ul>
+<li>实参变量的值→形参（parameter）</li>
+<li>在被调函数中不能改变实参的值</li>
+</ul>
+</li>
+<li><label style="color:red">指针类型</label>的变量作函数参数： <ul>
+<li>实参变量的地址→指针形参(pointer parameter)</li>
+<li>在被调函数中可以改变实参的值</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>c语言</category>
+      </categories>
+      <tags>
+        <tag>指针</tag>
+      </tags>
+  </entry>
 </search>
