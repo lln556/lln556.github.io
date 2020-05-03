@@ -1,41 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>shell脚本编程</title>
-    <url>/2020/04/20/shell%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="实验-shell-脚本的编写，主要掌握测试条件、位置变量和函数的使用。"><a href="#实验-shell-脚本的编写，主要掌握测试条件、位置变量和函数的使用。" class="headerlink" title="实验 shell 脚本的编写，主要掌握测试条件、位置变量和函数的使用。"></a>实验 shell 脚本的编写，主要掌握测试条件、位置变量和函数的使用。</h1><a id="more"></a>
-<hr>
-<h2 id="问题一"><a href="#问题一" class="headerlink" title="问题一"></a>问题一</h2><p>生成一个 100 以内的随机数,提示用户猜数字,根据用户的输入,提示用户猜对了, 猜小了或猜大了,直至用户猜对脚本结束。(提示:RANDOM 为系统自带的系统变量, 值为 0‐32767 的随机数，使用取余算法将随机数变为 1‐100 的随机数) </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">## filename: p1.sh</span><br><span class="line"></span><br><span class="line">num&#x3D;$[$RANDOM%100]</span><br><span class="line">while :</span><br><span class="line">do</span><br><span class="line">    read -p &quot;请输入一个1-100之内的数:&quot; n</span><br><span class="line">    if (($n &#x3D;&#x3D; $num)) </span><br><span class="line">        then echo &quot;恭喜您猜对了!&quot; </span><br><span class="line">        break</span><br><span class="line">    elif (($n&gt;$num))</span><br><span class="line">        then echo &quot;提示：您猜大了&quot;</span><br><span class="line">    else echo &quot;提示：您猜小了&quot;</span><br><span class="line">    fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
-
-<p><strong>效果图如下</strong></p>
-<img src="/2020/04/20/shell%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B/1.png" class="" title="效果图">
-
-<hr>
-<h2 id="问题二"><a href="#问题二" class="headerlink" title="问题二"></a>问题二</h2><p>使用 shell 脚本编写一函数 add 求两个数的和，要求这两个数用位置参数传入，最后输出结果。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">declare -i sum&#x3D;0</span><br><span class="line">sum&#x3D;$(($1+$2))</span><br><span class="line">echo -e &quot;$1+$2&#x3D;$sum&quot;</span><br></pre></td></tr></table></figure>
-
-<p><strong>效果图如下</strong></p>
-<img src="/2020/04/20/shell%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B/2.png" class="" title="效果图">
-
-<hr>
-<h2 id="问题三"><a href="#问题三" class="headerlink" title="问题三"></a>问题三</h2><p>编写一个 shell 脚本，实现如下功能:把第二个位置参数及其以后的各个参数指定的文件复制到第一个位置参数指定的目录中。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">#把第一个位置参数地址所指向的文件夹作为复制的目标地址</span><br><span class="line">path&#x3D;&quot;.&quot;</span><br><span class="line">for x in $@</span><br><span class="line">do</span><br><span class="line">path&#x3D;$x</span><br><span class="line">break</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">echo &quot;Copying...&quot;</span><br><span class="line">shift</span><br><span class="line"></span><br><span class="line">#从第二个位置参数开始复制</span><br><span class="line">for x in $@</span><br><span class="line">do</span><br><span class="line">cp $x $path</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">echo &quot;done&quot;</span><br></pre></td></tr></table></figure>
-
-<p><strong>效果图如下</strong></p>
-<img src="/2020/04/20/shell%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B/3.png" class="" title="效果图">
-
-<hr>
-<h2 id="问题四"><a href="#问题四" class="headerlink" title="问题四"></a>问题四</h2><p>编写脚本模拟实现交互式文件目录操作，实现命令包括:dir-列出当前目录下的文件和子目录;cd-切换目录;wcd-显示当前工作目录;create-创建一个文件;delete-删除一个文件;rename-重命名文件;newdir-创建目录;deldir-删除目录;exit-退出系统。(提示:可使用 select 命令实现交互操作，题目中要求实现的命令可用 Linux shell 中相关的命令模拟实现，如 dir 可用使用 ls 命令实现)。 </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">while :</span><br><span class="line">do</span><br><span class="line">    echo &quot;请选择你要执行的命令&quot;</span><br><span class="line">    select s in &quot;dir&quot; &quot;cd&quot; wcd create delete rename newdir deldir &quot;exit&quot;</span><br><span class="line">    do</span><br><span class="line">        case $REPLY in</span><br><span class="line"></span><br><span class="line">            1|[dD]ir) </span><br><span class="line">            dir  </span><br><span class="line">	    break  ;;</span><br><span class="line"></span><br><span class="line">	    2|[cC]d)</span><br><span class="line">	    read -p &quot;请输入你要跳转的路径&quot; path</span><br><span class="line">	    cd $path</span><br><span class="line">            echo -n &quot;您已成功跳转到&quot;</span><br><span class="line">            pwd  </span><br><span class="line">	    break  ;;</span><br><span class="line"></span><br><span class="line">            3|[wW]cd)</span><br><span class="line">	    pwd  </span><br><span class="line">	    break  ;;</span><br><span class="line"></span><br><span class="line">	    4|[cC]reate)</span><br><span class="line">	    read -p &quot;请输入你要创建的文件名&quot; filename</span><br><span class="line">            touch $filename </span><br><span class="line">	    echo &quot;$filename已创建成功&quot;  </span><br><span class="line">	    break ;;</span><br><span class="line"></span><br><span class="line">	    5|[dD]elete)</span><br><span class="line">	    read -p &quot;请输入你要删除的文件名&quot; filename</span><br><span class="line">	    rm -f $filename</span><br><span class="line">	    echo &quot;$filename已删除成功&quot;  </span><br><span class="line">	    break ;;</span><br><span class="line">	    </span><br><span class="line">	    6|[rR]ename)</span><br><span class="line">            read -p &quot;请输入你要修改掉的文件名和改成的文件名&quot; n1 n2</span><br><span class="line">            mv $n1 $n2</span><br><span class="line">	    echo &quot;修改成功&quot;  </span><br><span class="line">	    break  ;;</span><br><span class="line"></span><br><span class="line">	    7|[nN]ewdir)</span><br><span class="line">	    read -p &quot;请输入你要创建的目录名&quot; dirname</span><br><span class="line">            mkdir $dirname </span><br><span class="line">	    echo &quot;目录创建成功&quot;  </span><br><span class="line">	    break  ;;</span><br><span class="line">	    </span><br><span class="line">	    8|[dD]eldir)</span><br><span class="line">	    read -p &quot;请输入你要删除的目录名&quot; dirname</span><br><span class="line">	    rm -rf $dirname</span><br><span class="line">	    echo &quot;目录删除成功&quot;  </span><br><span class="line">	    break  ;;</span><br><span class="line"></span><br><span class="line">	    9|[eE]xit)</span><br><span class="line">	    exit ;;</span><br><span class="line">	    </span><br><span class="line">        esac</span><br><span class="line">    done</span><br><span class="line">done</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>shell脚本</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>函数指针</title>
     <url>/2020/04/22/%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88/</url>
     <content><![CDATA[<h1 id="什么是函数指针"><a href="#什么是函数指针" class="headerlink" title="什么是函数指针"></a>什么是函数指针</h1><ul>
@@ -98,6 +63,59 @@
       <tags>
         <tag>指针</tag>
         <tag>定积分计算</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>线性表</title>
+    <url>/2020/04/25/%E7%BA%BF%E6%80%A7%E8%A1%A8/</url>
+    <content><![CDATA[<h1 id="顺序表示和链式表示的区别"><a href="#顺序表示和链式表示的区别" class="headerlink" title="顺序表示和链式表示的区别"></a>顺序表示和链式表示的区别</h1><ul>
+<li>线性表的顺序表示：每一组地址连续的存储单元依次存储线性表的数据元素</li>
+<li>线性表的链式表示：它不要求逻辑上相邻的元素在物理位置上也相邻，因此它没有顺序存储结构所具有的弱点，但同时也失去了顺序表可随机存取的优点</li>
+<li>顺序存取：就是存取第N个数据时，必须先访问前(N-1)个数据 （list）</li>
+<li>随机存取：就是存取第N个数据时，不需要访问前(N-1)个数据,直接就可以对第N个数据操作 （array）</li>
+</ul>
+]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+      <tags>
+        <tag>顺序存储</tag>
+        <tag>链式存储</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>shell脚本编程</title>
+    <url>/2020/04/20/shell%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="实验-shell-脚本的编写，主要掌握测试条件、位置变量和函数的使用。"><a href="#实验-shell-脚本的编写，主要掌握测试条件、位置变量和函数的使用。" class="headerlink" title="实验 shell 脚本的编写，主要掌握测试条件、位置变量和函数的使用。"></a>实验 shell 脚本的编写，主要掌握测试条件、位置变量和函数的使用。</h1><a id="more"></a>
+<hr>
+<h2 id="问题一"><a href="#问题一" class="headerlink" title="问题一"></a>问题一</h2><p>生成一个 100 以内的随机数,提示用户猜数字,根据用户的输入,提示用户猜对了, 猜小了或猜大了,直至用户猜对脚本结束。(提示:RANDOM 为系统自带的系统变量, 值为 0‐32767 的随机数，使用取余算法将随机数变为 1‐100 的随机数) </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">## filename: p1.sh</span><br><span class="line"></span><br><span class="line">num&#x3D;$[$RANDOM%100]</span><br><span class="line">while :</span><br><span class="line">do</span><br><span class="line">    read -p &quot;请输入一个1-100之内的数:&quot; n</span><br><span class="line">    if (($n &#x3D;&#x3D; $num)) </span><br><span class="line">        then echo &quot;恭喜您猜对了!&quot; </span><br><span class="line">        break</span><br><span class="line">    elif (($n&gt;$num))</span><br><span class="line">        then echo &quot;提示：您猜大了&quot;</span><br><span class="line">    else echo &quot;提示：您猜小了&quot;</span><br><span class="line">    fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<p><strong>效果图如下</strong></p>
+<img src="/2020/04/20/shell%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B/1.png" class="" title="效果图">
+
+<hr>
+<h2 id="问题二"><a href="#问题二" class="headerlink" title="问题二"></a>问题二</h2><p>使用 shell 脚本编写一函数 add 求两个数的和，要求这两个数用位置参数传入，最后输出结果。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">declare -i sum&#x3D;0</span><br><span class="line">sum&#x3D;$(($1+$2))</span><br><span class="line">echo -e &quot;$1+$2&#x3D;$sum&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>效果图如下</strong></p>
+<img src="/2020/04/20/shell%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B/2.png" class="" title="效果图">
+
+<hr>
+<h2 id="问题三"><a href="#问题三" class="headerlink" title="问题三"></a>问题三</h2><p>编写一个 shell 脚本，实现如下功能:把第二个位置参数及其以后的各个参数指定的文件复制到第一个位置参数指定的目录中。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">#把第一个位置参数地址所指向的文件夹作为复制的目标地址</span><br><span class="line">path&#x3D;&quot;.&quot;</span><br><span class="line">for x in $@</span><br><span class="line">do</span><br><span class="line">path&#x3D;$x</span><br><span class="line">break</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">echo &quot;Copying...&quot;</span><br><span class="line">shift</span><br><span class="line"></span><br><span class="line">#从第二个位置参数开始复制</span><br><span class="line">for x in $@</span><br><span class="line">do</span><br><span class="line">cp $x $path</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">echo &quot;done&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>效果图如下</strong></p>
+<img src="/2020/04/20/shell%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B/3.png" class="" title="效果图">
+
+<hr>
+<h2 id="问题四"><a href="#问题四" class="headerlink" title="问题四"></a>问题四</h2><p>编写脚本模拟实现交互式文件目录操作，实现命令包括:dir-列出当前目录下的文件和子目录;cd-切换目录;wcd-显示当前工作目录;create-创建一个文件;delete-删除一个文件;rename-重命名文件;newdir-创建目录;deldir-删除目录;exit-退出系统。(提示:可使用 select 命令实现交互操作，题目中要求实现的命令可用 Linux shell 中相关的命令模拟实现，如 dir 可用使用 ls 命令实现)。 </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">while :</span><br><span class="line">do</span><br><span class="line">    echo &quot;请选择你要执行的命令&quot;</span><br><span class="line">    select s in &quot;dir&quot; &quot;cd&quot; wcd create delete rename newdir deldir &quot;exit&quot;</span><br><span class="line">    do</span><br><span class="line">        case $REPLY in</span><br><span class="line"></span><br><span class="line">            1|[dD]ir) </span><br><span class="line">            dir  </span><br><span class="line">	    break  ;;</span><br><span class="line"></span><br><span class="line">	    2|[cC]d)</span><br><span class="line">	    read -p &quot;请输入你要跳转的路径&quot; path</span><br><span class="line">	    cd $path</span><br><span class="line">            echo -n &quot;您已成功跳转到&quot;</span><br><span class="line">            pwd  </span><br><span class="line">	    break  ;;</span><br><span class="line"></span><br><span class="line">            3|[wW]cd)</span><br><span class="line">	    pwd  </span><br><span class="line">	    break  ;;</span><br><span class="line"></span><br><span class="line">	    4|[cC]reate)</span><br><span class="line">	    read -p &quot;请输入你要创建的文件名&quot; filename</span><br><span class="line">            touch $filename </span><br><span class="line">	    echo &quot;$filename已创建成功&quot;  </span><br><span class="line">	    break ;;</span><br><span class="line"></span><br><span class="line">	    5|[dD]elete)</span><br><span class="line">	    read -p &quot;请输入你要删除的文件名&quot; filename</span><br><span class="line">	    rm -f $filename</span><br><span class="line">	    echo &quot;$filename已删除成功&quot;  </span><br><span class="line">	    break ;;</span><br><span class="line">	    </span><br><span class="line">	    6|[rR]ename)</span><br><span class="line">            read -p &quot;请输入你要修改掉的文件名和改成的文件名&quot; n1 n2</span><br><span class="line">            mv $n1 $n2</span><br><span class="line">	    echo &quot;修改成功&quot;  </span><br><span class="line">	    break  ;;</span><br><span class="line"></span><br><span class="line">	    7|[nN]ewdir)</span><br><span class="line">	    read -p &quot;请输入你要创建的目录名&quot; dirname</span><br><span class="line">            mkdir $dirname </span><br><span class="line">	    echo &quot;目录创建成功&quot;  </span><br><span class="line">	    break  ;;</span><br><span class="line">	    </span><br><span class="line">	    8|[dD]eldir)</span><br><span class="line">	    read -p &quot;请输入你要删除的目录名&quot; dirname</span><br><span class="line">	    rm -rf $dirname</span><br><span class="line">	    echo &quot;目录删除成功&quot;  </span><br><span class="line">	    break  ;;</span><br><span class="line"></span><br><span class="line">	    9|[eE]xit)</span><br><span class="line">	    exit ;;</span><br><span class="line">	    </span><br><span class="line">        esac</span><br><span class="line">    done</span><br><span class="line">done</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>shell脚本</tag>
       </tags>
   </entry>
   <entry>
